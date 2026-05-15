@@ -1,132 +1,242 @@
 ---
-name: oacr
-description: "OACR (Open AI Code Reference): metodologia para edição cirúrgica de código com IA usando intervalos, blocos e âncoras. Criado por Otávio."
-license: MIT
-compatibility: opencode
+name: oacr-code-reference
+description: Apply the OACR 6.0 methodology for surgical, traceable, compatibility-preserving code and documentation work. Use when editing, creating, reviewing, documenting, or refactoring PHP, JavaScript, HTML, CSS, SQL, MySQL-backed systems, or any project where the user mentions OACR, OACR 6.0, operational memory files, Markdown project memory, intervals, OACR blocks, anchors, anti-guessing, backward compatibility, dependency maps, SQL maps, or safe AI-assisted code changes.
 ---
 
-## OACR — Open AI Code Reference
+# OACR 6.0 Code Reference
 
-**Criado por Otávio** — Metodologia própria para programadores que querem usar IA sem perder o controle do código.
+## Core Rule
 
-### Pra que serve?
+Use OACR 6.0 to make work observable, anchored, compatible, and recorded.
 
-Toda pessoa que já usou IA pra mexer em código grande sabe o problema: você pede uma alteração simples e a IA reescreve o arquivo inteiro, quebra funções que estavam funcionando, inventa nomes de tabelas que não existem, e você passa mais tempo corrigindo do que programando.
+OACR 6.0 means:
 
-O OACR resolve isso com **coordenadas de edição**: intervalos, blocos e âncoras. A IA sabe exatamente *onde* mexer e *o que* preservar.
-
-### Princípios
-
-1. **Edição cirúrgica** — nunca reescrever um arquivo inteiro. Localizar o bloco certo e alterar só ele.
-2. **Compatibilidade retroativa** — não quebrar o que já funciona. Criar pontes/adaptadores quando precisar mudar algo.
-3. **Antiadivinhação** — sem contexto suficiente, a IA não inventa. Ela pede evidências ou trabalha só com o que foi fornecido.
-4. **Rastreabilidade** — todo bloco tem número, versão, data e responsabilidade documentada.
-
-### Estrutura de um arquivo OACR
-
-```
-IDENTIDADE DO ARQUIVO  →  nome, caminho, função, risco, versão
-INTERVALO 01           →  grande região lógica (ex: "CONFIGURAÇÕES")
-  BLOCO OACR-01        →  responsabilidade específica + âncora
-  BLOCO OACR-02        →  responsabilidade específica + âncora
-INTERVALO 02           →  próxima região (ex: "HTML PRINCIPAL")
-  BLOCO OACR-03        →  responsabilidade específica + âncora
-MAPA SQL               →  tabelas e colunas lidas/gravadas
-DEPENDÊNCIAS           →  arquivos, endpoints e tabelas relacionados
-CHECKLIST DE TESTE     →  roteiro de validação
+```text
+O - Observe real evidence before deciding.
+A - Anchor the change in the correct file, block, flow, schema, route, or memory.
+C - Compatibilize with existing behavior, data, routes, sessions, helpers, enums, and formats.
+R - Record what changed in the correct project memories before finishing.
+6.0 - Apply the method to code and operational documentation, not only code comments.
 ```
 
-### Preparação do ambiente — Como me enviar o contexto certo
+Never rewrite an entire file unless the user explicitly asks for it or the file is small enough that a full rewrite is clearly safer. Prefer locating the requested INTERVALO, BLOCO OACR, ANCORA, function, endpoint, route, table, or memory section and changing only that scope.
 
-**Regra de ouro:** Eu só consigo acertar se você me der o contexto certo. Sem ele, vou ter que adivinhar — e adivinhação gera erro.
+## Operating Workflow
 
-Se você **já tem o projeto rodando**, vá direto para o **Passo 4** (memorial do banco) e me envie o JSON + o arquivo que quer alterar.
+1. Observe:
+   - Read the user's request carefully.
+   - Inspect the real file or artifact before changing it.
+   - Search local project evidence before assuming paths, tables, columns, enums, roles, or flows.
+   - For database work, consult schema, migrations, exported memorials, or live definitions when available.
+2. Anchor:
+   - Identify the exact file, module, flow, OACR block, anchor, endpoint, table, or memory note affected.
+   - Keep edits inside the smallest practical scope.
+   - Respect existing OACR anchors and block responsibilities.
+3. Compatibilize:
+   - Preserve function names, routes, HTML IDs/classes, JSON shapes, sessions, permissions, helper contracts, enums, and database semantics.
+   - Add fallbacks/adapters when old and new data shapes must coexist.
+   - Avoid unrelated refactors, formatting churn, and mechanical migrations.
+4. Record:
+   - Update project memory/docs when the project uses them.
+   - Record changed files, behavior, compatibility notes, validation, and remaining test gaps.
+   - Mark new or completed follow-up work in the project's pending/tasks memory.
 
-Se você **está começando um projeto novo**, siga os 4 passos abaixo na ordem.
+## OACR Structure
 
----
+When organizing or creating a critical file, include these elements where practical:
 
-#### PASSO 1 — Descobrir o caminho do servidor
+- File identity header: file name, expected path, main purpose, dependencies, related database tables, related endpoints, related memory files, risk level, status, version, and review date.
+- INTERVALOS: large logical regions of a file.
+- BLOCOS OACR: smaller responsibility-focused sections inside intervals.
+- ANCORAS: stable markers for exact edit points.
+- Dependency map: files, endpoints, and behaviors that depend on the current file.
+- SQL map: tables and columns read or written by the file.
+- Compatibility notes: behavior, data shapes, or legacy paths that must be preserved.
+- Test checklist: focused validation steps for the edited behavior.
 
-Crie um arquivo `caminho.php` na raiz do projeto com este conteúdo:
+Use ASCII labels unless the existing file already uses Portuguese accents or another charset consistently.
 
-> **Modelo:** [caminho.php](skill:oacr/templates/caminho.php)
+## Anti-Guessing Protocol
 
-1. Faça upload do `caminho.php` para a raiz do seu servidor
-2. Acesse ele no navegador (ex: `https://seudominio.com.br/caminho.php`)
-3. **Copie TUDO que aparecer na tela e me envie**
+Do not invent table names, columns, paths, endpoints, permissions, response formats, enum values, or user roles.
 
-Eu vou saber o caminho real do projeto, versão do PHP e extensões disponíveis.
+If context is missing, first search the local project. If the evidence still is not available, ask for the needed artifact or limit the change to the facts already present. Useful evidence can include:
 
----
+- Current full file or relevant OACR block.
+- Console error.
+- Network response.
+- Real JSON payload.
+- SQL schema or migration.
+- Exported database memorial or content sample.
+- Related endpoint.
+- Folder/tree export.
+- Screenshot of the failing UI.
+- Existing Markdown project memory.
 
-#### PASSO 2 — Criar a conexão com o banco
+## Compatibility Requirements
 
-Crie o arquivo `config/database.php` com os dados do seu banco:
+Preserve working behavior by default:
 
-> **Modelo:** [database.php](skill:oacr/templates/database.php)
+- Existing function names.
+- HTML IDs and important classes.
+- API endpoint paths.
+- JSON field names and response structure.
+- Global variables and public helpers.
+- Permission checks and role scopes.
+- Database table and column usage.
+- Existing flows for all project roles.
+- Operational Markdown memory links and conventions.
 
-1. Crie a pasta `config/` na raiz do projeto
-2. Salve o arquivo e preencha apenas: `$db_host`, `$db_name`, `$db_user`, `$db_pass`
-3. Se já tem esse arquivo, só verifique se as credenciais estão corretas
+Prefer compatibility patterns such as:
 
----
+```php
+$contratanteId = $row['contratante_id'] ?? $legacyContratanteId ?? null;
+```
 
-#### PASSO 3 — Testar a conexão
+```js
+const empreendimentoId = item.empreendimento_id || item.id;
+```
 
-Crie o arquivo `teste_conexao.php` na raiz do projeto:
+## Comments and Metadata
 
-> **Modelo:** [teste_conexao.php](skill:oacr/templates/teste_conexao.php)
+Use comments to explain intent, dependencies, sensitive behavior, compatibility requirements, and stable anchors. Avoid obvious comments.
 
-1. Faça upload para a raiz do servidor
-2. Acesse no navegador (ex: `https://seudominio.com.br/teste_conexao.php`)
-3. **Copie TUDO e me envie**
+Prefer:
 
-Vou saber se a conexão funciona, qual banco está conectado e quais tabelas existem.
+```php
+// Resolve o contratante pelo vinculo atual e mantem fallback para cadastros antigos.
+```
 
----
+Avoid:
 
-#### PASSO 4 — Gerar o memorial do banco (JSON)
+```php
+// faz a busca
+```
 
-Crie o arquivo `gerar_memorial.php` na raiz do projeto:
+Do not add OACR comments everywhere. Add them where they help future maintainers or another AI safely locate and preserve important behavior.
 
-> **Modelo:** [gerar_memorial.php](skill:oacr/templates/gerar_memorial.php)
+## Templates
 
-1. Faça upload para a raiz do servidor
-2. Acesse no navegador (ex: `https://seudominio.com.br/gerar_memorial.php`)
-3. Clique em **"Baixar JSON do Memorial"**
-4. **Me envie o arquivo JSON baixado**
+File identity header:
 
-Este JSON contém a estrutura COMPLETA do banco: todas as tabelas, colunas, tipos, chaves — eu nunca vou precisar adivinhar nomes de colunas.
+```php
+/*
+|--------------------------------------------------------------------------
+| OACR 6.0 - IDENTIDADE DO ARQUIVO
+|--------------------------------------------------------------------------
+| Arquivo:
+| Caminho:
+| Funcao:
+| Dependencias:
+| Tabelas relacionadas:
+| Endpoints relacionados:
+| Memorias relacionadas:
+| Status:
+| Risco:
+| Versao:
+| Data:
+|--------------------------------------------------------------------------
+| Metodo:
+| Observar -> Ancorar -> Compatibilizar -> Registrar
+|--------------------------------------------------------------------------
+*/
+```
 
----
+Interval marker:
 
-#### Depois dos 4 passos
+```html
+<!-- =========================================================
+INTERVALO 01 - CONFIGURACOES GERAIS
+========================================================= -->
+```
 
-Agora sim, me envie também:
-- **O arquivo que você quer que eu altere** (conteúdo completo)
-- **Qual a tarefa específica** que você precisa (ex: "criar tela de cadastro", "corrigir bug no relatório")
-- **URLs de endpoints** se for uma tela que consome API
+Block marker:
 
-> **Lembre-se:** Investir 5 minutos nessa preparação evita horas de correção depois.
+```php
+// =========================================================
+// BLOCO OACR-07 - CARREGAMENTO DE DADOS
+// ANCORA: OACR_LOAD_DADOS
+// Responsabilidade: Buscar dados respeitando o escopo do usuario.
+// Compatibilidade: Preserva filtros, formato de retorno e fallback legado.
+// Referencia operacional: NAVEGACAO_OPERACIONAL.md
+// Status: Em producao
+// Versao: 1.0
+// Data: YYYY-MM-DD
+// =========================================================
+```
 
-### Como usar com a IA
+SQL map:
 
-**Pedido bom:**
-> "Substitua apenas o BLOCO OACR-07 — CARREGAMENTO DE EMPREENDIMENTOS. Preserve todo o resto."
+```text
+MAPA SQL:
+Tabela:
+Le:
+- id
 
-**Pedido ruim:**
-> "Altera a tela de empreendimentos pra mim" (IA vai adivinhar e provavelmente errar)
+Grava:
+- nome
+```
 
-### Por que funciona?
+Test checklist:
 
-Programadores bons pensam em **estrutura** antes de escrever código. O OACR formaliza essa estrutura de um jeito que a IA entende. Em vez de um mar de texto, o arquivo vira um mapa com pontos de referência claros. Qualquer programador — independente do nível — consegue abrir um arquivo OACR e saber:
-- O que esse arquivo faz
-- Onde cada parte está
-- O que pode e o que não pode ser alterado
-- Qual o risco de mexer aqui
-- O que mais precisa ser testado depois
+```text
+CHECKLIST DE TESTE:
+[ ] Login com perfis relevantes.
+[ ] Validar permissao/escopo.
+[ ] Validar carregamento inicial.
+[ ] Validar criacao/edicao/listagem.
+[ ] Conferir retorno JSON quando houver endpoint.
+[ ] Rodar lint/teste aplicavel.
+[ ] Registrar teste pendente quando depender de FTP/servidor.
+```
 
-### Sobre o criador
+## Project Memory Workflow
 
-O OACR foi criado por **Otávio**, desenvolvedor que percebeu que o maior gargalo no trabalho com IA não é a IA — é a falta de organização do código. O método nasceu da prática, de horas debugando alterações que a IA fez sem contexto suficiente. É um padrão vivo, que evolui com o uso.
+When a project uses Markdown memory files, treat them as part of OACR 6.0.
+
+Typical roles:
+
+- `COMO_TRABALHAR_NO_PROJETO.md`: how to resume and use the memories.
+- `NAVEGACAO_OPERACIONAL.md`: current operational state, routes, flows, and critical rules.
+- `PENDENCIAS.md`: objective task and test checklist.
+- `DECISOES_TECNICAS.md`: decisions, enums, architecture, compatibility rules.
+- `LOG_DE_DESENVOLVIMENTO.md`: technical implementation log.
+- `DIARIO_DO_PROJETO.md`: narrative context and why decisions were made.
+- `MODULOS_DO_SISTEMA.md`: modules by role/profile and current status.
+- Database JSON memorials: schema, columns, indexes, enums, relationships, and real samples.
+- FTP/tree JSON memorials: deployed file/folder structure.
+
+Update at least the development log and pending list after meaningful work. Update decisions, diary, operational navigation, and modules when their content changes.
+
+## Handling Older OACR Versions
+
+Projects may contain files marked `OACR 5.0` or older.
+
+- Do not mechanically update all headers only for aesthetics.
+- When editing a critical file for a real reason, upgrade its header/block to `OACR 6.0` if useful.
+- If the change is tiny, preserving the older header is acceptable.
+- New critical files should use `OACR 6.0`.
+
+## Response Format
+
+For point edits without direct file changes, answer with the exact scope and replacement guidance:
+
+```text
+BLOCO OACR-07 - CARREGAMENTO DE DADOS
+Versao: 1.1
+Status: Corrigido
+Data: YYYY-MM-DD
+
+[codigo do bloco corrigido]
+
+Substitua este codigo no BLOCO OACR-07.
+```
+
+For direct repository edits, summarize:
+
+- Scope changed.
+- Files touched.
+- Compatibility preserved.
+- Memory/docs updated.
+- Validation performed or not performed.
+- Remaining FTP/server/manual test gaps.
