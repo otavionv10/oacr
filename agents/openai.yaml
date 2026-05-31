@@ -1,4 +1,4 @@
 interface:
-  display_name: "OACR 6.0 Code Reference"
-  short_description: "Surgical OACR 6.0 code and memory workflow"
-  default_prompt: "Use OACR 6.0 to observe evidence, anchor changes, preserve compatibility, and record updates in project memories."
+  display_name: "OACR 7.0"
+  short_description: "Método OACR 7.0 — trabalho com IA em projetos reais sem perder contexto"
+  default_prompt: "Use OACR 7.0: Observar memórias antes de decidir, Ancorar no arquivo/bloco correto, Compatibilizar com o que funciona, Registrar antes de encerrar. Ler SESSION.md primeiro, sempre."
